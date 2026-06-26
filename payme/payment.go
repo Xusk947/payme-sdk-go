@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -106,6 +107,9 @@ func GeneratePaymentURL(merchantID string, amount int64, account map[string]stri
 	for key, value := range account {
 		parts = append(parts, fmt.Sprintf("ac.%s=%s", key, value))
 	}
+	sort.Slice(parts[2:], func(i, j int) bool {
+		return parts[2+i] < parts[2+j]
+	})
 
 	if cfg.lang != "" {
 		parts = append(parts, fmt.Sprintf("l=%s", cfg.lang))

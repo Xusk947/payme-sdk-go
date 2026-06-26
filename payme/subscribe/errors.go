@@ -46,6 +46,11 @@ func ErrCardNotFound() *rpc.Error {
 	return rpc.NewErrorSimple(ErrCodeCardNotFound, "Card not found", nil)
 }
 
+// ErrCardAlreadyExists returns a card-already-exists error.
+func ErrCardAlreadyExists() *rpc.Error {
+	return rpc.NewErrorSimple(ErrCodeCardAlreadyExists, "Card already exists", nil)
+}
+
 // ErrCardExpired returns a card-expired error.
 func ErrCardExpired() *rpc.Error {
 	return rpc.NewErrorSimple(ErrCodeCardExpired, "Card has expired", nil)

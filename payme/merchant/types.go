@@ -25,6 +25,48 @@ type CheckPerformTransactionResponse struct {
 
 	// Additional is optional additional information returned to the Payme app.
 	Additional map[string]any `json:"additional,omitempty"`
+
+	// Detail is optional receipt detail for fiscalization (items, shipping, discount).
+	Detail *Detail `json:"detail,omitempty"`
+}
+
+// Detail represents the detailed breakdown of a receipt for fiscalization.
+type Detail struct {
+	// ReceiptType is the fiscal receipt type (0 or 1).
+	ReceiptType int `json:"receipt_type,omitempty"`
+
+	// Shipping contains shipping/delivery information.
+	Shipping *Shipping `json:"shipping,omitempty"`
+
+	// Items is the list of items in the receipt.
+	Items []Item `json:"items,omitempty"`
+
+	// Discount contains discount information.
+	Discount *Discount `json:"discount,omitempty"`
+}
+
+// Shipping represents shipping/delivery information in a receipt detail.
+type Shipping struct {
+	Title string `json:"title"`
+	Price int64  `json:"price"`
+}
+
+// Item represents a single item in a receipt.
+type Item struct {
+	Discount    int64  `json:"discount,omitempty"`
+	Title       string `json:"title"`
+	Price       int64  `json:"price"`
+	Count       int    `json:"count"`
+	Code        string `json:"code,omitempty"`
+	Units       int    `json:"units,omitempty"`
+	VatPercent  int    `json:"vat_percent,omitempty"`
+	PackageCode string `json:"package_code,omitempty"`
+}
+
+// Discount represents discount information in a receipt detail.
+type Discount struct {
+	Title string `json:"title"`
+	Price int64  `json:"price"`
 }
 
 // CreateTransactionRequest is the request for the CreateTransaction method.

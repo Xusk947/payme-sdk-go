@@ -12,15 +12,19 @@ import (
 // The amount is the payment amount in tiyin (1/100 of UZS).
 // The account is a key-value map of account fields (e.g., {"order_id": "123"}).
 // The detail is optional receipt detail (items, shipping, discount). Pass nil if not needed.
+// The description is an optional payment description. Pass "" if not needed.
 //
 // Returns the created receipt.
-func (c *Client) ReceiptsCreate(ctx context.Context, amount int64, account map[string]string, detail *subscribe.Detail) (*subscribe.Receipt, error) {
+func (c *Client) ReceiptsCreate(ctx context.Context, amount int64, account map[string]string, detail *subscribe.Detail, description string) (*subscribe.Receipt, error) {
 	params := map[string]any{
 		"amount":  amount,
 		"account": account,
 	}
 	if detail != nil {
 		params["detail"] = detail
+	}
+	if description != "" {
+		params["description"] = description
 	}
 
 	var result struct {
@@ -177,4 +181,39 @@ func (c *Client) ReceiptsGetAll(ctx context.Context, from, to int64, count, offs
 	}
 
 	return result, nil
+}
+
+// FiscalData represents fiscal receipt data for OFD integration.
+type FiscalData struct {
+	StatusCode int    `json:"status_code"`
+	Message    string `json:"message"`
+	TerminalID string `json:"terminal_id"`
+	ReceiptID  int    `json:"receipt_id"`
+	Date       string `json:"date"`
+	FiscalSign string `json:"fiscal_sign"`
+	QRCodeURL  string `json:"qr_code_url"`
+}
+
+// ReceiptsSetFiscalData sends fiscal receipt data to Payme for OFD integration.
+// This is a server-side method: it uses full auth (merchantID:key).
+//
+// The id is the receipt ID.
+// The fiscalData contains the fiscal receipt information from the OFD.
+//
+// Returns true if the data was accepted.
+func (c *Client) ReceiptsSetFiscalData(ctx context.Context, id string, fiscalData *FiscalData) (bool, error) {
+	params := map[string]any{
+		"id":          id,
+		"fiscal_data": fiscalData,
+	}
+
+	var result struct {
+		Success bool `json:"success"`
+	}
+
+	if err := c.callWithFullAuth(ctx, "receipts.set_fiscal_data", params, &result); err != nil {
+		return false, err
+	}
+
+	return result.Success, nil
 }

@@ -53,7 +53,7 @@ func main() {
 			},
 		},
 	}
-	receipt, err := client.ReceiptsCreate(ctx, 500000, map[string]string{"order_id": "123"}, detail)
+	receipt, err := client.ReceiptsCreate(ctx, 500000, map[string]string{"order_id": "123"}, detail, "Payment for order 123")
 	if err != nil {
 		log.Fatalf("ReceiptsCreate failed: %v", err)
 	}
