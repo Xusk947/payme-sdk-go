@@ -39,15 +39,15 @@ type rpcRequest struct {
 	JSONRPC string          `json:"jsonrpc"`
 	Method  string          `json:"method"`
 	Params  json.RawMessage `json:"params"`
-	ID      any     `json:"id"`
+	ID      any             `json:"id"`
 }
 
 // rpcResponse is the JSON-RPC 2.0 response envelope.
 type rpcResponse struct {
-	JSONRPC string      `json:"jsonrpc"`
-	Result  any `json:"result,omitempty"`
-	Error   *rpc.Error  `json:"error,omitempty"`
-	ID      any `json:"id"`
+	JSONRPC string     `json:"jsonrpc"`
+	Result  any        `json:"result,omitempty"`
+	Error   *rpc.Error `json:"error,omitempty"`
+	ID      any        `json:"id"`
 }
 
 // ServeHTTP processes incoming Payme Business Merchant API requests.
@@ -89,7 +89,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	defer r.Body.Close()
+	defer func() { _ = r.Body.Close() }()
 
 	var req rpcRequest
 	if err := json.Unmarshal(body, &req); err != nil {
@@ -201,6 +201,6 @@ func (h *Handler) validateAuth(r *http.Request) bool {
 func writeResponse(w http.ResponseWriter, resp rpcResponse) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		fmt.Fprintf(w, `{"jsonrpc":"2.0","error":{"code":%d,"message":{"en":"Internal error"}},"id":null}`, rpc.ErrCodeInternal)
+		_, _ = fmt.Fprintf(w, `{"jsonrpc":"2.0","error":{"code":%d,"message":{"en":"Internal error"}},"id":null}`, rpc.ErrCodeInternal)
 	}
 }

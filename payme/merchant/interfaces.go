@@ -12,6 +12,8 @@ import "context"
 // idempotency: if a transaction with the same Payme ID already exists, the
 // handler should return the existing transaction's state rather than creating
 // a duplicate.
+//
+//nolint:revive // stuttering is intentional: Handler struct already exists
 type MerchantHandler interface {
 	// CheckPerformTransaction checks whether a financial transaction can be created.
 	// It should validate the account and amount. Return an error if the transaction

@@ -1,3 +1,4 @@
+// Command merchant-server is an example Payme Business Merchant API server.
 package main
 
 import (
@@ -16,7 +17,7 @@ type myHandler struct {
 	store map[string]*models.Transaction
 }
 
-func (h *myHandler) CheckPerformTransaction(ctx context.Context, req *merchant.CheckPerformTransactionRequest) (*merchant.CheckPerformTransactionResponse, error) {
+func (h *myHandler) CheckPerformTransaction(_ context.Context, req *merchant.CheckPerformTransactionRequest) (*merchant.CheckPerformTransactionResponse, error) {
 	if req.Amount <= 0 {
 		return nil, merchant.ErrInvalidAmount("amount")
 	}
@@ -27,7 +28,7 @@ func (h *myHandler) CheckPerformTransaction(ctx context.Context, req *merchant.C
 	return &merchant.CheckPerformTransactionResponse{Allow: true}, nil
 }
 
-func (h *myHandler) CreateTransaction(ctx context.Context, req *merchant.CreateTransactionRequest) (*merchant.CreateTransactionResponse, error) {
+func (h *myHandler) CreateTransaction(_ context.Context, req *merchant.CreateTransactionRequest) (*merchant.CreateTransactionResponse, error) {
 	if existing, ok := h.store[req.ID]; ok {
 		return &merchant.CreateTransactionResponse{
 			CreateTime:  existing.CreateTime,
@@ -53,7 +54,7 @@ func (h *myHandler) CreateTransaction(ctx context.Context, req *merchant.CreateT
 	}, nil
 }
 
-func (h *myHandler) PerformTransaction(ctx context.Context, req *merchant.PerformTransactionRequest) (*merchant.PerformTransactionResponse, error) {
+func (h *myHandler) PerformTransaction(_ context.Context, req *merchant.PerformTransactionRequest) (*merchant.PerformTransactionResponse, error) {
 	tx, ok := h.store[req.ID]
 	if !ok {
 		return nil, merchant.ErrTransactionNotFound("id")
@@ -138,5 +139,11 @@ func main() {
 
 	http.Handle("/payme", handler)
 	log.Println("Merchant API server listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	server := &http.Server{
+		Addr:         ":8080",
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+	log.Fatal(server.ListenAndServe())
 }

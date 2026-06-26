@@ -1,3 +1,4 @@
+// Command subscribe-client is an example Payme Business Subscribe API client.
 package main
 
 import (

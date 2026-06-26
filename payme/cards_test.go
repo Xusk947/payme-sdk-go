@@ -16,7 +16,9 @@ func TestCardsCreate(t *testing.T) {
 		}
 
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			t.Fatalf("failed to decode request: %v", err)
+		}
 
 		if req["method"] != "cards.create" {
 			t.Errorf("method = %v, want cards.create", req["method"])
@@ -31,7 +33,9 @@ func TestCardsCreate(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("failed to encode response: %v", err)
+		}
 	}))
 	defer server.Close()
 
@@ -50,7 +54,9 @@ func TestCardsCreate(t *testing.T) {
 func TestCardsGetVerifyCode(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			t.Fatalf("failed to decode request: %v", err)
+		}
 
 		if req["method"] != "cards.get_verify_code" {
 			t.Errorf("method = %v, want cards.get_verify_code", req["method"])
@@ -65,7 +71,9 @@ func TestCardsGetVerifyCode(t *testing.T) {
 				"wait":  60000,
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("failed to encode response: %v", err)
+		}
 	}))
 	defer server.Close()
 
@@ -90,7 +98,9 @@ func TestCardsGetVerifyCode(t *testing.T) {
 func TestCardsVerify(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			t.Fatalf("failed to decode request: %v", err)
+		}
 
 		if req["method"] != "cards.verify" {
 			t.Errorf("method = %v, want cards.verify", req["method"])
@@ -105,7 +115,9 @@ func TestCardsVerify(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("failed to encode response: %v", err)
+		}
 	}))
 	defer server.Close()
 
@@ -130,7 +142,9 @@ func TestCardsCheck(t *testing.T) {
 		}
 
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			t.Fatalf("failed to decode request: %v", err)
+		}
 
 		if req["method"] != "cards.check" {
 			t.Errorf("method = %v, want cards.check", req["method"])
@@ -149,7 +163,9 @@ func TestCardsCheck(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("failed to encode response: %v", err)
+		}
 	}))
 	defer server.Close()
 
@@ -177,7 +193,9 @@ func TestCardsRemove(t *testing.T) {
 		}
 
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			t.Fatalf("failed to decode request: %v", err)
+		}
 
 		if req["method"] != "cards.remove" {
 			t.Errorf("method = %v, want cards.remove", req["method"])
@@ -190,7 +208,9 @@ func TestCardsRemove(t *testing.T) {
 				"success": true,
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("failed to encode response: %v", err)
+		}
 	}))
 	defer server.Close()
 

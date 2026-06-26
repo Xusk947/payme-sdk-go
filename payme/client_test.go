@@ -134,7 +134,7 @@ func TestClient_Call_PartialAuth(t *testing.T) {
 }
 
 func TestClient_Call_RPCError(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
@@ -185,7 +185,7 @@ func TestClient_Call_Non200Status(t *testing.T) {
 
 func TestClient_Call_InvalidJSONResponse(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "invalid json")
+		_, _ = fmt.Fprint(w, "invalid json")
 	}))
 	defer server.Close()
 

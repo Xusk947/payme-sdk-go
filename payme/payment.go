@@ -152,38 +152,38 @@ func GeneratePaymentHTMLForm(merchantID string, amount int64, account map[string
 
 	var sb strings.Builder
 
-	sb.WriteString(fmt.Sprintf(`<form method="POST" action="%s">`, actionURL))
+	fmt.Fprintf(&sb, `<form method="POST" action="%s">`, actionURL)
 	sb.WriteString("\n")
 
-	sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="merchant" value="%s"/>`, merchantID))
+	fmt.Fprintf(&sb, `  <input type="hidden" name="merchant" value="%s"/>`, merchantID)
 	sb.WriteString("\n")
 
-	sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="amount" value="%d"/>`, amount))
+	fmt.Fprintf(&sb, `  <input type="hidden" name="amount" value="%d"/>`, amount)
 	sb.WriteString("\n")
 
 	for key, value := range account {
-		sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="account[%s]" value="%s"/>`, key, value))
+		fmt.Fprintf(&sb, `  <input type="hidden" name="account[%s]" value="%s"/>`, key, value)
 		sb.WriteString("\n")
 	}
 
 	if cfg.lang != "" {
-		sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="lang" value="%s"/>`, cfg.lang))
+		fmt.Fprintf(&sb, `  <input type="hidden" name="lang" value="%s"/>`, cfg.lang)
 		sb.WriteString("\n")
 	}
 	if cfg.callback != "" {
-		sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="callback" value="%s"/>`, cfg.callback))
+		fmt.Fprintf(&sb, `  <input type="hidden" name="callback" value="%s"/>`, cfg.callback)
 		sb.WriteString("\n")
 	}
 	if cfg.callbackTimeout > 0 {
-		sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="callback_timeout" value="%d"/>`, cfg.callbackTimeout))
+		fmt.Fprintf(&sb, `  <input type="hidden" name="callback_timeout" value="%d"/>`, cfg.callbackTimeout)
 		sb.WriteString("\n")
 	}
 	if cfg.description != "" {
-		sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="description" value="%s"/>`, cfg.description))
+		fmt.Fprintf(&sb, `  <input type="hidden" name="description" value="%s"/>`, cfg.description)
 		sb.WriteString("\n")
 	}
 	if cfg.detail != "" {
-		sb.WriteString(fmt.Sprintf(`  <input type="hidden" name="detail" value="%s"/>`, cfg.detail))
+		fmt.Fprintf(&sb, `  <input type="hidden" name="detail" value="%s"/>`, cfg.detail)
 		sb.WriteString("\n")
 	}
 

@@ -24,7 +24,10 @@ func TestReceiptsCreate(t *testing.T) {
 			t.Errorf("method = %v, want receipts.create", req["method"])
 		}
 
-		params := req["params"].(map[string]any)
+		params, ok := req["params"].(map[string]any)
+		if !ok {
+			t.Fatalf("failed to assert params type")
+		}
 		if params["amount"] != float64(500000) {
 			t.Errorf("amount = %v, want 500000", params["amount"])
 		}
@@ -61,7 +64,7 @@ func TestReceiptsCreate(t *testing.T) {
 }
 
 func TestReceiptsCreate_WithDetail(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
@@ -318,7 +321,7 @@ func TestReceiptsGetAll(t *testing.T) {
 }
 
 func TestReceiptsCreate_Error(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
