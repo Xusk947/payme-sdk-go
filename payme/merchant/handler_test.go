@@ -34,15 +34,15 @@ type mockMerchantHandler struct {
 	statementErr    error
 }
 
-func (m *mockMerchantHandler) CheckPerformTransaction(ctx context.Context, req *CheckPerformTransactionRequest) (*CheckPerformTransactionResponse, error) {
+func (m *mockMerchantHandler) CheckPerformTransaction(_ context.Context, req *CheckPerformTransactionRequest) (*CheckPerformTransactionResponse, error) {
 	return m.checkPerformResult, m.checkPerformErr
 }
 
-func (m *mockMerchantHandler) CreateTransaction(ctx context.Context, req *CreateTransactionRequest) (*CreateTransactionResponse, error) {
+func (m *mockMerchantHandler) CreateTransaction(_ context.Context, req *CreateTransactionRequest) (*CreateTransactionResponse, error) {
 	return m.createResult, m.createErr
 }
 
-func (m *mockMerchantHandler) PerformTransaction(ctx context.Context, req *PerformTransactionRequest) (*PerformTransactionResponse, error) {
+func (m *mockMerchantHandler) PerformTransaction(_ context.Context, req *PerformTransactionRequest) (*PerformTransactionResponse, error) {
 	return m.performResult, m.performErr
 }
 

@@ -44,7 +44,7 @@ func TestReceiptsCreate(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -75,7 +75,7 @@ func TestReceiptsCreate_WithDetail(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -122,7 +122,7 @@ func TestReceiptsPay(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -158,7 +158,7 @@ func TestReceiptsSend(t *testing.T) {
 				"success": true,
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -194,7 +194,7 @@ func TestReceiptsCancel(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -226,7 +226,7 @@ func TestReceiptsCheck(t *testing.T) {
 				"state": 4,
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -262,7 +262,7 @@ func TestReceiptsGet(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -301,7 +301,7 @@ func TestReceiptsGetAll(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
@@ -332,7 +332,7 @@ func TestReceiptsCreate_Error(t *testing.T) {
 				},
 			},
 		}
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil { t.Fatalf("failed to encode response: %v", err) }
 	}))
 	defer server.Close()
 
