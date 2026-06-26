@@ -1,7 +1,9 @@
 # Payme Business SDK for Go
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/xusk947/payme-sdk-go.svg)](https://pkg.go.dev/github.com/xusk947/payme-sdk-go)
+[![Release](https://img.shields.io/github/v/release/xusk947/payme-sdk-go.svg)](https://github.com/Xusk947/payme-sdk-go/releases)
 [![CI](https://github.com/xusk947/payme-sdk-go/actions/workflows/ci.yml/badge.svg)](https://github.com/xusk947/payme-sdk-go/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Xusk947/payme-sdk-go/graph/badge.svg)](https://codecov.io/gh/Xusk947/payme-sdk-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xusk947/payme-sdk-go)](https://goreportcard.com/report/github.com/xusk947/payme-sdk-go)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
