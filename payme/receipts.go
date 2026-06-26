@@ -15,6 +15,8 @@ import (
 // The description is an optional payment description. Pass "" if not needed.
 //
 // Returns the created receipt.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.create/
 func (c *Client) ReceiptsCreate(ctx context.Context, amount int64, account map[string]string, detail *subscribe.Detail, description string) (*subscribe.Receipt, error) {
 	params := map[string]any{
 		"amount":  amount,
@@ -46,6 +48,8 @@ func (c *Client) ReceiptsCreate(ctx context.Context, amount int64, account map[s
 // The payer contains payer information (phone, email, etc.).
 //
 // Returns the paid receipt.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.pay/
 func (c *Client) ReceiptsPay(ctx context.Context, id, token string, payer *subscribe.Payer) (*subscribe.Receipt, error) {
 	params := map[string]any{
 		"id":    id,
@@ -73,6 +77,8 @@ func (c *Client) ReceiptsPay(ctx context.Context, id, token string, payer *subsc
 // The phone is the recipient's phone number.
 //
 // Returns true if the SMS was sent successfully.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.send/
 func (c *Client) ReceiptsSend(ctx context.Context, id, phone string) (bool, error) {
 	params := map[string]any{
 		"id":    id,
@@ -96,6 +102,8 @@ func (c *Client) ReceiptsSend(ctx context.Context, id, phone string) (bool, erro
 // The id is the receipt ID to cancel.
 //
 // Returns the cancelled receipt.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.cancel/
 func (c *Client) ReceiptsCancel(ctx context.Context, id string) (*subscribe.Receipt, error) {
 	params := map[string]any{
 		"id": id,
@@ -120,6 +128,8 @@ func (c *Client) ReceiptsCancel(ctx context.Context, id string) (*subscribe.Rece
 // Returns the current state of the receipt.
 // Possible state values: 0 (Created), 1 (Sent), 2 (Pending), 4 (Paid),
 // 20 (Cancelled), 21 (Cancelled after paid).
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.check/
 func (c *Client) ReceiptsCheck(ctx context.Context, id string) (int, error) {
 	params := map[string]any{
 		"id": id,
@@ -142,6 +152,8 @@ func (c *Client) ReceiptsCheck(ctx context.Context, id string) (int, error) {
 // The id is the receipt ID.
 //
 // Returns the full receipt information.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.get/
 func (c *Client) ReceiptsGet(ctx context.Context, id string) (*subscribe.Receipt, error) {
 	params := map[string]any{
 		"id": id,
@@ -166,6 +178,8 @@ func (c *Client) ReceiptsGet(ctx context.Context, id string) (*subscribe.Receipt
 // The offset is the number of receipts to skip (for pagination).
 //
 // Returns the list of receipts.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.get_all/
 func (c *Client) ReceiptsGetAll(ctx context.Context, from, to int64, count, offset int) ([]subscribe.Receipt, error) {
 	params := map[string]any{
 		"from":   from,
@@ -201,6 +215,8 @@ type FiscalData struct {
 // The fiscalData contains the fiscal receipt information from the OFD.
 //
 // Returns true if the data was accepted.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/receipts.set_fiscal_data/
 func (c *Client) ReceiptsSetFiscalData(ctx context.Context, id string, fiscalData *FiscalData) (bool, error) {
 	params := map[string]any{
 		"id":          id,

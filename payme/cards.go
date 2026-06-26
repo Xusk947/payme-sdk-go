@@ -14,6 +14,8 @@ import (
 // The account is optional account data to associate with the card.
 //
 // Returns the created card token.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/cards.create/
 func (c *Client) CardsCreate(ctx context.Context, cardNumber, cardExpire string, save bool, account map[string]string) (string, error) {
 	params := map[string]any{
 		"card": map[string]any{
@@ -46,6 +48,8 @@ func (c *Client) CardsCreate(ctx context.Context, cardNumber, cardExpire string,
 // The phone is the phone number associated with the card (optional, pass empty string if not needed).
 //
 // Returns the verify code result with sent status, masked phone, and wait time in milliseconds.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/cards.get_verify_code/
 func (c *Client) CardsGetVerifyCode(ctx context.Context, token, phone string) (*GetVerifyCodeResult, error) {
 	params := map[string]any{
 		"token": token,
@@ -69,6 +73,8 @@ func (c *Client) CardsGetVerifyCode(ctx context.Context, token, phone string) (*
 // The code is the SMS verification code sent to the cardholder's phone.
 //
 // Returns the verified card token.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/cards.verify/
 func (c *Client) CardsVerify(ctx context.Context, token, code string) (string, error) {
 	params := map[string]any{
 		"token": token,
@@ -94,6 +100,8 @@ func (c *Client) CardsVerify(ctx context.Context, token, code string) (string, e
 // The token is the card token to check.
 //
 // Returns card information including masked number, expiry, and verification status.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/cards.check/
 func (c *Client) CardsCheck(ctx context.Context, token string) (*CardCheckResult, error) {
 	params := map[string]any{
 		"token": token,
@@ -116,6 +124,8 @@ func (c *Client) CardsCheck(ctx context.Context, token string) (*CardCheckResult
 // The token is the card token to remove.
 //
 // Returns true if the card was successfully removed.
+//
+// See: https://developer.help.paycom.uz/metody-subscribe-api/cards.remove/
 func (c *Client) CardsRemove(ctx context.Context, token string) (bool, error) {
 	params := map[string]any{
 		"token": token,

@@ -89,6 +89,8 @@ func WithPaymentTestMode() PaymentOption {
 //	    payme.WithLang("en"),
 //	    payme.WithCallback("https://myshop.uz/payme/:transaction"),
 //	)
+//
+// See: https://developer.help.paycom.uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-get/
 func GeneratePaymentURL(merchantID string, amount int64, account map[string]string, opts ...PaymentOption) string {
 	cfg := &paymentConfig{}
 	for _, opt := range opts {
@@ -143,6 +145,8 @@ func GeneratePaymentURL(merchantID string, amount int64, account map[string]stri
 // Optional payment options can be passed to customize the payment page.
 //
 // The generated form includes a submit button labeled "Pay with Payme".
+//
+// See: https://developer.help.paycom.uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-post/
 func GeneratePaymentHTMLForm(merchantID string, amount int64, account map[string]string, opts ...PaymentOption) string {
 	cfg := &paymentConfig{}
 	for _, opt := range opts {

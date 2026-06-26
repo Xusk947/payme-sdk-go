@@ -18,6 +18,8 @@ type MerchantHandler interface {
 	// CheckPerformTransaction checks whether a financial transaction can be created.
 	// It should validate the account and amount. Return an error if the transaction
 	// cannot be performed.
+	//
+	// See: https://developer.help.paycom.uz/metody-merchant-api/checktransaction/
 	CheckPerformTransaction(ctx context.Context, req *CheckPerformTransactionRequest) (*CheckPerformTransactionResponse, error)
 
 	// CreateTransaction creates a financial transaction. The handler should:
@@ -26,26 +28,36 @@ type MerchantHandler interface {
 	// - Validate the amount matches the billed amount
 	// - Set the order status to "awaiting payment"
 	// - Return the existing transaction if it was already created (idempotency)
+	//
+	// See: https://developer.help.paycom.uz/metody-merchant-api/createtransaction/
 	CreateTransaction(ctx context.Context, req *CreateTransactionRequest) (*CreateTransactionResponse, error)
 
 	// PerformTransaction completes a previously created transaction. The handler should:
 	// - Credit the merchant's account
 	// - Set the order status to "paid"
 	// - Return the existing state if already performed (idempotency)
+	//
+	// See: https://developer.help.paycom.uz/metody-merchant-api/performtransaction/
 	PerformTransaction(ctx context.Context, req *PerformTransactionRequest) (*PerformTransactionResponse, error)
 
 	// CancelTransaction cancels a transaction (either created or completed).
 	// For completed transactions, this performs a refund. The handler should:
 	// - Cancel the transaction and update the order status
 	// - Return the existing state if already cancelled (idempotency)
+	//
+	// See: https://developer.help.paycom.uz/metody-merchant-api/canceltransaction/
 	CancelTransaction(ctx context.Context, req *CancelTransactionRequest) (*CancelTransactionResponse, error)
 
 	// CheckTransaction returns the current state of a transaction.
+	//
+	// See: https://developer.help.paycom.uz/metody-merchant-api/checkperformtransaction/
 	CheckTransaction(ctx context.Context, req *CheckTransactionRequest) (*CheckTransactionResponse, error)
 
 	// GetStatement returns all transactions for the specified time period.
 	// Transactions should be sorted by creation time in ascending order.
 	// Only transactions that were successfully created via CreateTransaction
 	// should be included.
+	//
+	// See: https://developer.help.paycom.uz/metody-merchant-api/getstatement/
 	GetStatement(ctx context.Context, req *GetStatementRequest) (*GetStatementResponse, error)
 }
