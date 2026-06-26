@@ -9,6 +9,8 @@
 
 A Go SDK for the [Payme Business](https://developer.help.paycom.uz/) payment platform. Covers the Merchant API (server-side handler), Subscribe API (client-side caller), and payment initialization helpers.
 
+**Based on Payme Business API documentation** at [developer.help.paycom.uz](https://developer.help.paycom.uz/) (as of June 2025).
+
 ## Features
 
 - Merchant API: JSON-RPC 2.0 HTTP handler for receiving Payme Business callbacks
@@ -56,7 +58,7 @@ func main() {
             {Title: "Product A", Price: 500000, Count: 1, Code: "00702001001000001", VatPercent: 15},
         },
     }
-    receipt, err := client.ReceiptsCreate(ctx, 500000, map[string]string{"order_id": "123"}, detail)
+    receipt, err := client.ReceiptsCreate(ctx, 500000, map[string]string{"order_id": "123"}, detail, "Payment for order 123")
     if err != nil {
         log.Fatal(err)
     }
@@ -194,6 +196,7 @@ form := payme.GeneratePaymentHTMLForm("your_merchant_id", 500000,
 | `ReceiptsCheck` | Check receipt status | Full |
 | `ReceiptsGet` | Get full receipt info | Full |
 | `ReceiptsGetAll` | Get all receipts for a period | Full |
+| `ReceiptsSetFiscalData` | Send fiscal receipt data to Payme (OFD) | Full |
 
 ### Merchant API Methods
 
