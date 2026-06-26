@@ -18,7 +18,7 @@ func TestReceiptsCreate(t *testing.T) {
 		}
 
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.create" {
 			t.Errorf("method = %v, want receipts.create", req["method"])
@@ -101,7 +101,7 @@ func TestReceiptsCreate_WithDetail(t *testing.T) {
 func TestReceiptsPay(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.pay" {
 			t.Errorf("method = %v, want receipts.pay", req["method"])
@@ -145,7 +145,7 @@ func TestReceiptsPay(t *testing.T) {
 func TestReceiptsSend(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.send" {
 			t.Errorf("method = %v, want receipts.send", req["method"])
@@ -177,7 +177,7 @@ func TestReceiptsSend(t *testing.T) {
 func TestReceiptsCancel(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.cancel" {
 			t.Errorf("method = %v, want receipts.cancel", req["method"])
@@ -213,7 +213,7 @@ func TestReceiptsCancel(t *testing.T) {
 func TestReceiptsCheck(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.check" {
 			t.Errorf("method = %v, want receipts.check", req["method"])
@@ -245,7 +245,7 @@ func TestReceiptsCheck(t *testing.T) {
 func TestReceiptsGet(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.get" {
 			t.Errorf("method = %v, want receipts.get", req["method"])
@@ -281,7 +281,7 @@ func TestReceiptsGet(t *testing.T) {
 func TestReceiptsGetAll(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var req map[string]any
-		json.NewDecoder(r.Body).Decode(&req)
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil { t.Fatalf("failed to decode request: %v", err) }
 
 		if req["method"] != "receipts.get_all" {
 			t.Errorf("method = %v, want receipts.get_all", req["method"])

@@ -77,7 +77,7 @@ func (h *myHandler) PerformTransaction(_ context.Context, req *merchant.PerformT
 	}, nil
 }
 
-func (h *myHandler) CancelTransaction(ctx context.Context, req *merchant.CancelTransactionRequest) (*merchant.CancelTransactionResponse, error) {
+func (h *myHandler) CancelTransaction(_ context.Context, req *merchant.CancelTransactionRequest) (*merchant.CancelTransactionResponse, error) {
 	tx, ok := h.store[req.ID]
 	if !ok {
 		return nil, merchant.ErrTransactionNotFound("id")
@@ -106,7 +106,7 @@ func (h *myHandler) CancelTransaction(ctx context.Context, req *merchant.CancelT
 	}, nil
 }
 
-func (h *myHandler) CheckTransaction(ctx context.Context, req *merchant.CheckTransactionRequest) (*merchant.CheckTransactionResponse, error) {
+func (h *myHandler) CheckTransaction(_ context.Context, req *merchant.CheckTransactionRequest) (*merchant.CheckTransactionResponse, error) {
 	tx, ok := h.store[req.ID]
 	if !ok {
 		return nil, merchant.ErrTransactionNotFound("id")
@@ -122,7 +122,7 @@ func (h *myHandler) CheckTransaction(ctx context.Context, req *merchant.CheckTra
 	}, nil
 }
 
-func (h *myHandler) GetStatement(ctx context.Context, req *merchant.GetStatementRequest) (*merchant.GetStatementResponse, error) {
+func (h *myHandler) GetStatement(_ context.Context, req *merchant.GetStatementRequest) (*merchant.GetStatementResponse, error) {
 	var transactions []models.Transaction
 	for _, tx := range h.store {
 		if tx.CreateTime >= req.From && tx.CreateTime <= req.To {
