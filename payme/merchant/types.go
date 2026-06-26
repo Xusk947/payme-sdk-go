@@ -47,26 +47,47 @@ type Detail struct {
 
 // Shipping represents shipping/delivery information in a receipt detail.
 type Shipping struct {
+	// Title is the shipping description.
 	Title string `json:"title"`
-	Price int64  `json:"price"`
+
+	// Price is the shipping price in tiyin.
+	Price int64 `json:"price"`
 }
 
 // Item represents a single item in a receipt.
 type Item struct {
-	Discount    int64  `json:"discount,omitempty"`
-	Title       string `json:"title"`
-	Price       int64  `json:"price"`
-	Count       int    `json:"count"`
-	Code        string `json:"code,omitempty"`
-	Units       int    `json:"units,omitempty"`
-	VatPercent  int    `json:"vat_percent,omitempty"`
+	// Discount is the discount amount in tiyin, accounting for item quantity.
+	Discount int64 `json:"discount,omitempty"`
+
+	// Title is the item name or service description.
+	Title string `json:"title"`
+
+	// Price is the price per unit in tiyin.
+	Price int64 `json:"price"`
+
+	// Count is the quantity of items or services.
+	Count int `json:"count"`
+
+	// Code is the IKPU (identification code of products and services).
+	Code string `json:"code,omitempty"`
+
+	// Units is the unit code from the IKPU classification.
+	Units int `json:"units,omitempty"`
+
+	// VatPercent is the VAT percentage for this item.
+	VatPercent int `json:"vat_percent,omitempty"`
+
+	// PackageCode is the package code for the item from the IKPU details.
 	PackageCode string `json:"package_code,omitempty"`
 }
 
 // Discount represents discount information in a receipt detail.
 type Discount struct {
+	// Title is the discount description.
 	Title string `json:"title"`
-	Price int64  `json:"price"`
+
+	// Price is the discount amount in tiyin.
+	Price int64 `json:"price"`
 }
 
 // CreateTransactionRequest is the request for the CreateTransaction method.
