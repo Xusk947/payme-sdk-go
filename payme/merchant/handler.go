@@ -57,7 +57,7 @@ type rpcResponse struct {
 // All responses are returned with HTTP status 200, per the Payme Merchant API
 // specification. Errors are represented as JSON-RPC error objects.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/json; charset=UTF-8")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	// Validate HTTP Basic Auth
 	if !h.validateAuth(r) {

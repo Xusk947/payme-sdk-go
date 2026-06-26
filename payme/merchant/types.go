@@ -5,12 +5,6 @@ import "github.com/xusk947/payme-sdk-go/payme/models"
 // CheckPerformTransactionRequest is the request for the CheckPerformTransaction method.
 // It checks whether a financial transaction can be created.
 type CheckPerformTransactionRequest struct {
-	// ID is the unique transaction identifier in Payme Business (24-character hex string).
-	ID string `json:"id"`
-
-	// Time is the timestamp in milliseconds when the request was created.
-	Time int64 `json:"time"`
-
 	// Amount is the payment amount in tiyin.
 	Amount int64 `json:"amount"`
 
