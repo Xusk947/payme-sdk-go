@@ -34,27 +34,27 @@ type mockMerchantHandler struct {
 	statementErr    error
 }
 
-func (m *mockMerchantHandler) CheckPerformTransaction(_ context.Context, req *CheckPerformTransactionRequest) (*CheckPerformTransactionResponse, error) {
+func (m *mockMerchantHandler) CheckPerformTransaction(_ context.Context, _ *CheckPerformTransactionRequest) (*CheckPerformTransactionResponse, error) {
 	return m.checkPerformResult, m.checkPerformErr
 }
 
-func (m *mockMerchantHandler) CreateTransaction(_ context.Context, req *CreateTransactionRequest) (*CreateTransactionResponse, error) {
+func (m *mockMerchantHandler) CreateTransaction(_ context.Context, _ *CreateTransactionRequest) (*CreateTransactionResponse, error) {
 	return m.createResult, m.createErr
 }
 
-func (m *mockMerchantHandler) PerformTransaction(_ context.Context, req *PerformTransactionRequest) (*PerformTransactionResponse, error) {
+func (m *mockMerchantHandler) PerformTransaction(_ context.Context, _ *PerformTransactionRequest) (*PerformTransactionResponse, error) {
 	return m.performResult, m.performErr
 }
 
-func (m *mockMerchantHandler) CancelTransaction(ctx context.Context, req *CancelTransactionRequest) (*CancelTransactionResponse, error) {
+func (m *mockMerchantHandler) CancelTransaction(_ context.Context, _ *CancelTransactionRequest) (*CancelTransactionResponse, error) {
 	return m.cancelResult, m.cancelErr
 }
 
-func (m *mockMerchantHandler) CheckTransaction(ctx context.Context, req *CheckTransactionRequest) (*CheckTransactionResponse, error) {
+func (m *mockMerchantHandler) CheckTransaction(_ context.Context, _ *CheckTransactionRequest) (*CheckTransactionResponse, error) {
 	return m.checkResult, m.checkErr
 }
 
-func (m *mockMerchantHandler) GetStatement(ctx context.Context, req *GetStatementRequest) (*GetStatementResponse, error) {
+func (m *mockMerchantHandler) GetStatement(_ context.Context, _ *GetStatementRequest) (*GetStatementResponse, error) {
 	return m.statementResult, m.statementErr
 }
 
