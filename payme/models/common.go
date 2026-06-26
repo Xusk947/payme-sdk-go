@@ -7,5 +7,5 @@ type Amount int64
 // Timestamp represents a Unix timestamp in milliseconds.
 type Timestamp int64
 
-// ID represents a Payme Business identifier — a 24-character hex string.
+// ID represents a Payme Business identifier: a 24-character hex string.
 type ID string

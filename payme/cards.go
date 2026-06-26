@@ -6,7 +6,7 @@ import (
 )
 
 // CardsCreate creates a card token from card details.
-// This is a client-side method — it uses partial auth (merchantID only).
+// This is a client-side method: it uses partial auth (merchantID only).
 //
 // The cardNumber is the 16-digit card number without spaces.
 // The cardExpire is the card expiry date in MMYY format (e.g., "0399").
@@ -15,8 +15,8 @@ import (
 //
 // Returns the created card token.
 func (c *Client) CardsCreate(ctx context.Context, cardNumber, cardExpire string, save bool, account map[string]string) (string, error) {
-	params := map[string]interface{}{
-		"card": map[string]interface{}{
+	params := map[string]any{
+		"card": map[string]any{
 			"number": cardNumber,
 			"expire": cardExpire,
 		},
@@ -40,14 +40,14 @@ func (c *Client) CardsCreate(ctx context.Context, cardNumber, cardExpire string,
 }
 
 // CardsGetVerifyCode requests a verification code (SMS) for a card token.
-// This is a client-side method — it uses partial auth (merchantID only).
+// This is a client-side method: it uses partial auth (merchantID only).
 //
 // The token is the card token returned by CardsCreate.
 // The phone is the phone number associated with the card (optional, pass empty string if not needed).
 //
 // Returns the verify code result with sent status, masked phone, and wait time in milliseconds.
 func (c *Client) CardsGetVerifyCode(ctx context.Context, token, phone string) (*GetVerifyCodeResult, error) {
-	params := map[string]interface{}{
+	params := map[string]any{
 		"token": token,
 	}
 	if phone != "" {
@@ -63,14 +63,14 @@ func (c *Client) CardsGetVerifyCode(ctx context.Context, token, phone string) (*
 }
 
 // CardsVerify verifies a card token using the SMS code sent to the cardholder.
-// This is a client-side method — it uses partial auth (merchantID only).
+// This is a client-side method: it uses partial auth (merchantID only).
 //
 // The token is the card token returned by CardsCreate.
 // The code is the SMS verification code sent to the cardholder's phone.
 //
 // Returns the verified card token.
 func (c *Client) CardsVerify(ctx context.Context, token, code string) (string, error) {
-	params := map[string]interface{}{
+	params := map[string]any{
 		"token": token,
 		"code":  code,
 	}
@@ -89,13 +89,13 @@ func (c *Client) CardsVerify(ctx context.Context, token, code string) (string, e
 }
 
 // CardsCheck checks the validity of a card token.
-// This is a client-side method — it uses partial auth (merchantID only).
+// This is a client-side method: it uses partial auth (merchantID only).
 //
 // The token is the card token to check.
 //
 // Returns card information including masked number, expiry, and verification status.
 func (c *Client) CardsCheck(ctx context.Context, token string) (*CardCheckResult, error) {
-	params := map[string]interface{}{
+	params := map[string]any{
 		"token": token,
 	}
 
@@ -111,13 +111,13 @@ func (c *Client) CardsCheck(ctx context.Context, token string) (*CardCheckResult
 }
 
 // CardsRemove removes a card token.
-// This is a server-side method — it uses full auth (merchantID:key).
+// This is a server-side method: it uses full auth (merchantID:key).
 //
 // The token is the card token to remove.
 //
 // Returns true if the card was successfully removed.
 func (c *Client) CardsRemove(ctx context.Context, token string) (bool, error) {
-	params := map[string]interface{}{
+	params := map[string]any{
 		"token": token,
 	}
 

@@ -64,11 +64,11 @@ func TestClient_Call_Success(t *testing.T) {
 			t.Errorf("Content-Type = %q, want application/json", r.Header.Get("Content-Type"))
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
-			"result": map[string]interface{}{
-				"receipt": map[string]interface{}{
+			"result": map[string]any{
+				"receipt": map[string]any{
 					"_id":   "test_receipt_id",
 					"state": 0,
 				},
@@ -81,7 +81,7 @@ func TestClient_Call_Success(t *testing.T) {
 	c := NewClient("merchant123", "key456")
 	c.baseURL = server.URL
 
-	result, err := c.Call(context.Background(), "receipts.create", map[string]interface{}{
+	result, err := c.Call(context.Background(), "receipts.create", map[string]any{
 		"amount":  500000,
 		"account": map[string]string{"order_id": "123"},
 	}, "full")
@@ -102,11 +102,11 @@ func TestClient_Call_PartialAuth(t *testing.T) {
 			t.Errorf("X-Auth = %q, want %q", xAuth, expected)
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
-			"result": map[string]interface{}{
-				"card": map[string]interface{}{
+			"result": map[string]any{
+				"card": map[string]any{
 					"token": "test_token",
 				},
 			},
@@ -118,8 +118,8 @@ func TestClient_Call_PartialAuth(t *testing.T) {
 	c := NewClient("merchant123", "key456")
 	c.baseURL = server.URL
 
-	result, err := c.Call(context.Background(), "cards.create", map[string]interface{}{
-		"card": map[string]interface{}{
+	result, err := c.Call(context.Background(), "cards.create", map[string]any{
+		"card": map[string]any{
 			"number": "8600061234567890",
 			"expire": "0399",
 		},
@@ -135,10 +135,10 @@ func TestClient_Call_PartialAuth(t *testing.T) {
 
 func TestClient_Call_RPCError(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
-			"error": map[string]interface{}{
+			"error": map[string]any{
 				"code": -32001,
 				"message": map[string]string{
 					"en": "Receipt not found",
@@ -152,7 +152,7 @@ func TestClient_Call_RPCError(t *testing.T) {
 	c := NewClient("merchant", "key")
 	c.baseURL = server.URL
 
-	_, err := c.Call(context.Background(), "receipts.get", map[string]interface{}{
+	_, err := c.Call(context.Background(), "receipts.get", map[string]any{
 		"id": "nonexistent",
 	}, "full")
 	if err == nil {
@@ -177,7 +177,7 @@ func TestClient_Call_Non200Status(t *testing.T) {
 	c := NewClient("merchant", "key")
 	c.baseURL = server.URL
 
-	_, err := c.Call(context.Background(), "receipts.create", map[string]interface{}{}, "full")
+	_, err := c.Call(context.Background(), "receipts.create", map[string]any{}, "full")
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -192,7 +192,7 @@ func TestClient_Call_InvalidJSONResponse(t *testing.T) {
 	c := NewClient("merchant", "key")
 	c.baseURL = server.URL
 
-	_, err := c.Call(context.Background(), "receipts.create", map[string]interface{}{}, "full")
+	_, err := c.Call(context.Background(), "receipts.create", map[string]any{}, "full")
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -202,7 +202,7 @@ func TestClient_Call_ServerUnavailable(t *testing.T) {
 	c := NewClient("merchant", "key")
 	c.baseURL = "http://localhost:99999"
 
-	_, err := c.Call(context.Background(), "receipts.create", map[string]interface{}{}, "full")
+	_, err := c.Call(context.Background(), "receipts.create", map[string]any{}, "full")
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
@@ -216,10 +216,10 @@ func TestClient_Call_DefaultAuthType(t *testing.T) {
 			t.Errorf("X-Auth = %q, want %q", xAuth, expected)
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
-			"result":  map[string]interface{}{},
+			"result":  map[string]any{},
 		}
 		json.NewEncoder(w).Encode(resp)
 	}))
@@ -228,7 +228,7 @@ func TestClient_Call_DefaultAuthType(t *testing.T) {
 	c := NewClient("merchant", "key")
 	c.baseURL = server.URL
 
-	_, err := c.Call(context.Background(), "test.method", map[string]interface{}{}, "unknown")
+	_, err := c.Call(context.Background(), "test.method", map[string]any{}, "unknown")
 	if err != nil {
 		t.Fatalf("Call failed: %v", err)
 	}

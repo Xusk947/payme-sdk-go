@@ -39,15 +39,15 @@ type rpcRequest struct {
 	JSONRPC string          `json:"jsonrpc"`
 	Method  string          `json:"method"`
 	Params  json.RawMessage `json:"params"`
-	ID      interface{}     `json:"id"`
+	ID      any     `json:"id"`
 }
 
 // rpcResponse is the JSON-RPC 2.0 response envelope.
 type rpcResponse struct {
 	JSONRPC string      `json:"jsonrpc"`
-	Result  interface{} `json:"result,omitempty"`
+	Result  any `json:"result,omitempty"`
 	Error   *rpc.Error  `json:"error,omitempty"`
-	ID      interface{} `json:"id"`
+	ID      any `json:"id"`
 }
 
 // ServeHTTP processes incoming Payme Business Merchant API requests.
@@ -165,7 +165,7 @@ func (h *Handler) dispatch(ctx context.Context, req *rpcRequest) rpcResponse {
 }
 
 // buildResponse creates a JSON-RPC response from a result and error.
-func buildResponse(result interface{}, err error) rpcResponse {
+func buildResponse(result any, err error) rpcResponse {
 	if err != nil {
 		if rpcErr, ok := err.(*rpc.Error); ok {
 			return rpcResponse{Error: rpcErr}

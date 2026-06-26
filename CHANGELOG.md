@@ -11,22 +11,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release of the Payme Business SDK for Go.
-- **Merchant API**: JSON-RPC 2.0 HTTP handler with `MerchantHandler` interface
+- Payme Business SDK for Go, initial release
+- Merchant API: JSON-RPC 2.0 HTTP handler with `MerchantHandler` interface
   - `CheckPerformTransaction`, `CreateTransaction`, `PerformTransaction`, `CancelTransaction`, `CheckTransaction`, `GetStatement`
   - HTTP Basic Auth validation
-  - Pre-defined error constructors with localized messages (ru, uz, en)
-- **Subscribe API**: HTTP client for Payme Business endpoints
+  - Error constructors with localized messages (ru, uz, en)
+- Subscribe API: HTTP client for Payme Business endpoints
   - Card methods: `CardsCreate`, `CardsGetVerifyCode`, `CardsVerify`, `CardsCheck`, `CardsRemove`
   - Receipt methods: `ReceiptsCreate`, `ReceiptsPay`, `ReceiptsSend`, `ReceiptsCancel`, `ReceiptsCheck`, `ReceiptsGet`, `ReceiptsGetAll`
   - Partial auth (merchantID only) for client-side card methods
   - Full auth (merchantID:key) for server-side methods
-- **Payment Initialization**: URL and HTML form generation for Payme checkout
-  - `GeneratePaymentURL` with GET method
+- Payment initialization: URL and HTML form generation for Payme checkout
+  - `GeneratePaymentURL` with GET method (base64 format)
   - `GeneratePaymentHTMLForm` with POST method
   - Options: callback URL, language, description, detail, test mode
-- **Shared types**: `Account`, `Transaction`, `Receiver`, `TransactionState`, `CancelReason`
-- **Error handling**: `rpc.Error` type with JSON-RPC 2.0 error codes
-- **Unit tests**: 88%+ coverage across all packages
-- **CI/CD**: GitHub Actions for testing and linting, GoReleaser for releases
-- **Documentation**: Full GoDoc comments, README, examples
+- Shared types: `Account`, `Transaction`, `Receiver`, `TransactionState`, `CancelReason`
+- Error handling: `rpc.Error` type with JSON-RPC 2.0 error codes
+- Test data constants: test cards (Uzcard, Humo), SMS code, test merchant ID
+- Unit tests: 88%+ coverage across all packages
+- CI/CD: GitHub Actions for testing and linting, GoReleaser for releases
+- Documentation: GoDoc comments, README, examples

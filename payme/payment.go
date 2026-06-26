@@ -54,7 +54,7 @@ func WithDescription(desc string) PaymentOption {
 
 // WithDetail sets the payment detail object (items, shipping, discount).
 // The detail is JSON-encoded and base64-encoded automatically.
-func WithDetail(detail interface{}) PaymentOption {
+func WithDetail(detail any) PaymentOption {
 	return func(c *paymentConfig) {
 		jsonBytes, err := json.Marshal(detail)
 		if err == nil {

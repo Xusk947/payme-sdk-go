@@ -1,3 +1,5 @@
+// Package subscribe defines types for the Payme Business Subscribe API,
+// including receipts, cards, payers, and merchant information.
 package subscribe
 
 // Receipt represents a payment receipt in the Payme Subscribe API.
@@ -27,10 +29,10 @@ type Receipt struct {
 	Operation int `json:"operation"`
 
 	// Category is the receipt category (may be null).
-	Category interface{} `json:"category"`
+	Category any `json:"category"`
 
 	// Error contains error information if any.
-	Error interface{} `json:"error"`
+	Error any `json:"error"`
 
 	// Description is the payment description.
 	Description string `json:"description"`
@@ -57,10 +59,10 @@ type Receipt struct {
 	Merchant *Merchant `json:"merchant"`
 
 	// Meta contains metadata.
-	Meta interface{} `json:"meta"`
+	Meta any `json:"meta"`
 
 	// ProcessingID is the processing identifier.
-	ProcessingID interface{} `json:"processing_id"`
+	ProcessingID any `json:"processing_id"`
 }
 
 // Detail represents the detailed breakdown of a receipt, including items,
@@ -102,7 +104,7 @@ type Item struct {
 	// Count is the quantity of items.
 	Count int `json:"count"`
 
-	// Code is the IKPU (ИКПУ) code — identification code of products and services.
+	// Code is the IKPU (ИКПУ) code: identification code of products and services.
 	Code string `json:"code,omitempty"`
 
 	// Units is the unit code.
@@ -131,7 +133,7 @@ type AccountField struct {
 
 	// Title is the display title of the field. Can be a string or a localized object
 	// (e.g., {"ru": "Логин", "uz": "Login", "en": "Login"}).
-	Title interface{} `json:"title"`
+	Title any `json:"title"`
 
 	// Value is the field value.
 	Value string `json:"value"`
@@ -173,14 +175,14 @@ type Merchant struct {
 	Date int64 `json:"date"`
 
 	// Logo is the merchant logo URL (may be null).
-	Logo interface{} `json:"logo"`
+	Logo any `json:"logo"`
 
 	// Type is the merchant type. Can be a string (e.g., "Shop") or a localized object
 	// (e.g., {"ru": "Internet", "uz": "Internet"}).
-	Type interface{} `json:"type"`
+	Type any `json:"type"`
 
 	// Terms is the merchant terms (may be null).
-	Terms interface{} `json:"terms"`
+	Terms any `json:"terms"`
 
 	// Payer contains payer information (in paid receipts).
 	Payer *Payer `json:"payer,omitempty"`

@@ -17,23 +17,23 @@ func TestReceiptsCreate(t *testing.T) {
 			t.Errorf("X-Auth = %q, want merchant:key", xAuth)
 		}
 
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.create" {
 			t.Errorf("method = %v, want receipts.create", req["method"])
 		}
 
-		params := req["params"].(map[string]interface{})
+		params := req["params"].(map[string]any)
 		if params["amount"] != float64(500000) {
 			t.Errorf("amount = %v, want 500000", params["amount"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"receipt": map[string]interface{}{
+			"result": map[string]any{
+				"receipt": map[string]any{
 					"_id":         "62da73b0803aced907a52b46",
 					"create_time": 1658483632482,
 					"state":       0,
@@ -62,11 +62,11 @@ func TestReceiptsCreate(t *testing.T) {
 
 func TestReceiptsCreate_WithDetail(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
-			"result": map[string]interface{}{
-				"receipt": map[string]interface{}{
+			"result": map[string]any{
+				"receipt": map[string]any{
 					"_id":   "test_id",
 					"state": 0,
 				},
@@ -97,22 +97,22 @@ func TestReceiptsCreate_WithDetail(t *testing.T) {
 
 func TestReceiptsPay(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.pay" {
 			t.Errorf("method = %v, want receipts.pay", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"receipt": map[string]interface{}{
+			"result": map[string]any{
+				"receipt": map[string]any{
 					"_id":      "receipt_123",
 					"state":    4,
 					"pay_time": 1481113810265,
-					"card": map[string]interface{}{
+					"card": map[string]any{
 						"number": "860006******6311",
 						"expire": "0399",
 					},
@@ -141,17 +141,17 @@ func TestReceiptsPay(t *testing.T) {
 
 func TestReceiptsSend(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.send" {
 			t.Errorf("method = %v, want receipts.send", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
+			"result": map[string]any{
 				"success": true,
 			},
 		}
@@ -173,18 +173,18 @@ func TestReceiptsSend(t *testing.T) {
 
 func TestReceiptsCancel(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.cancel" {
 			t.Errorf("method = %v, want receipts.cancel", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"receipt": map[string]interface{}{
+			"result": map[string]any{
+				"receipt": map[string]any{
 					"_id":         "receipt_123",
 					"state":       20,
 					"cancel_time": 1481113810265,
@@ -209,17 +209,17 @@ func TestReceiptsCancel(t *testing.T) {
 
 func TestReceiptsCheck(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.check" {
 			t.Errorf("method = %v, want receipts.check", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
+			"result": map[string]any{
 				"state": 4,
 			},
 		}
@@ -241,18 +241,18 @@ func TestReceiptsCheck(t *testing.T) {
 
 func TestReceiptsGet(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.get" {
 			t.Errorf("method = %v, want receipts.get", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"receipt": map[string]interface{}{
+			"result": map[string]any{
+				"receipt": map[string]any{
 					"_id":    "receipt_123",
 					"state":  4,
 					"amount": 500000,
@@ -277,22 +277,22 @@ func TestReceiptsGet(t *testing.T) {
 
 func TestReceiptsGetAll(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "receipts.get_all" {
 			t.Errorf("method = %v, want receipts.get_all", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": []interface{}{
-				map[string]interface{}{
+			"result": []any{
+				map[string]any{
 					"_id":   "receipt_1",
 					"state": 4,
 				},
-				map[string]interface{}{
+				map[string]any{
 					"_id":   "receipt_2",
 					"state": 0,
 				},
@@ -319,10 +319,10 @@ func TestReceiptsGetAll(t *testing.T) {
 
 func TestReceiptsCreate_Error(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      1,
-			"error": map[string]interface{}{
+			"error": map[string]any{
 				"code": -32001,
 				"message": map[string]string{
 					"en": "Receipt not found",

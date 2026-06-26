@@ -1,3 +1,5 @@
+// Package models defines shared types used across the Payme Business SDK,
+// including transactions, accounts, and payment receivers.
 package models
 
 // TransactionState represents the state of a transaction.

@@ -9,12 +9,12 @@ import "github.com/xusk947/payme-sdk-go/payme/rpc"
 type RPCError = rpc.Error
 
 // NewRPCError creates a new RPCError with the given code, messages, and optional data.
-func NewRPCError(code int, message map[string]string, data interface{}) *rpc.Error {
+func NewRPCError(code int, message map[string]string, data any) *rpc.Error {
 	return rpc.NewError(code, message, data)
 }
 
 // NewRPCErrorSimple creates a new RPCError with a single English message and optional data.
-func NewRPCErrorSimple(code int, enMessage string, data interface{}) *rpc.Error {
+func NewRPCErrorSimple(code int, enMessage string, data any) *rpc.Error {
 	return rpc.NewErrorSimple(code, enMessage, data)
 }
 

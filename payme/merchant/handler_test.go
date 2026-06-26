@@ -177,7 +177,7 @@ func TestHandler_CheckPerformTransaction(t *testing.T) {
 		t.Fatalf("unexpected error: %v", resp.Error)
 	}
 
-	result, ok := resp.Result.(map[string]interface{})
+	result, ok := resp.Result.(map[string]any)
 	if !ok {
 		t.Fatalf("expected map result, got %T", resp.Result)
 	}
@@ -213,7 +213,7 @@ func TestHandler_CreateTransaction(t *testing.T) {
 		t.Fatalf("unexpected error: %v", resp.Error)
 	}
 
-	result, ok := resp.Result.(map[string]interface{})
+	result, ok := resp.Result.(map[string]any)
 	if !ok {
 		t.Fatalf("expected map result, got %T", resp.Result)
 	}

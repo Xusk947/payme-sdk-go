@@ -1,0 +1,45 @@
+# Payme Business SDK for Go
+
+A Go SDK for the Payme Business payment platform. Pure Go standard library, no external dependencies.
+
+## Project structure
+
+- `payme/` - root package: client, cards, receipts, payment helpers, constants, test data
+- `payme/merchant/` - Merchant API server-side handler (JSON-RPC 2.0)
+- `payme/rpc/` - JSON-RPC 2.0 error types and codes
+- `payme/subscribe/` - Subscribe API types (receipts, cards, payers)
+- `payme/models/` - shared types (transaction, account, receiver)
+- `examples/` - working examples for subscribe client and merchant server
+
+## Key types
+
+- `payme.Client` - Subscribe API HTTP client
+- `payme.merchant.Handler` - Merchant API HTTP handler
+- `payme.merchant.MerchantHandler` - interface merchants implement
+- `payme.rpc.Error` - JSON-RPC 2.0 error with localized messages
+- `payme.subscribe.Receipt` - payment receipt
+- `payme.subscribe.Card` - card token info
+- `payme.models.Transaction` - merchant transaction
+
+## Installation
+
+```
+go get github.com/xusk947/payme-sdk-go
+```
+
+## Authentication
+
+- Full auth: `merchantID:key` (server-side methods: receipts.*, cards.remove)
+- Partial auth: `merchantID` only (client-side methods: cards.create, cards.check, cards.verify, cards.get_verify_code)
+
+## Test data
+
+- Test merchant ID: `5e730e8e0b852a417aa49ceb`
+- SMS code for all test cards: `666666`
+- Test cards: Uzcard `8600495473316478` (0399), Uzcard `8600069195406311` (0399), Humo `9860010101010101` (0399)
+- Sandbox URL: `https://checkout.test.paycom.uz/api`
+
+## Documentation
+
+- Official API docs: https://developer.help.paycom.uz/
+- Go reference: https://pkg.go.dev/github.com/xusk947/payme-sdk-go

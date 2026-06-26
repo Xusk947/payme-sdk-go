@@ -11,7 +11,7 @@ import (
 )
 
 // myHandler implements merchant.MerchantHandler.
-// This is a minimal example — in production, use a persistent storage.
+// This is a minimal example: in production, use a persistent storage.
 type myHandler struct {
 	store map[string]*models.Transaction
 }

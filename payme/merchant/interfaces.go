@@ -1,3 +1,5 @@
+// Package merchant implements the Payme Business Merchant API server-side
+// handler, dispatching JSON-RPC 2.0 requests to a user-provided MerchantHandler.
 package merchant
 
 import "context"
@@ -7,7 +9,7 @@ import "context"
 // method called by Payme Business.
 //
 // Implementations must store transactions in a persistent storage and handle
-// idempotency — if a transaction with the same Payme ID already exists, the
+// idempotency: if a transaction with the same Payme ID already exists, the
 // handler should return the existing transaction's state rather than creating
 // a duplicate.
 type MerchantHandler interface {

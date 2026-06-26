@@ -79,10 +79,10 @@ func NewClient(merchantID, key string, opts ...Option) *Client {
 //   - "partial": uses "merchantID" only (for client-side methods like cards.create)
 //
 // Returns the raw JSON result that the caller can unmarshal into the appropriate type.
-func (c *Client) Call(ctx context.Context, method string, params interface{}, authType string) (json.RawMessage, error) {
+func (c *Client) Call(ctx context.Context, method string, params any, authType string) (json.RawMessage, error) {
 	id := atomic.AddUint64(&c.idCounter, 1)
 
-	reqBody := map[string]interface{}{
+	reqBody := map[string]any{
 		"jsonrpc": "2.0",
 		"method":  method,
 		"params":  params,
@@ -113,12 +113,12 @@ func (c *Client) Call(ctx context.Context, method string, params interface{}, au
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("HTTP request failed: %w", err)
+		return nil, fmt.Errorf("http request failed: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected HTTP status: %d", resp.StatusCode)
+		return nil, fmt.Errorf("unexpected http status: %d", resp.StatusCode)
 	}
 
 	respBody, err := io.ReadAll(resp.Body)
@@ -130,7 +130,7 @@ func (c *Client) Call(ctx context.Context, method string, params interface{}, au
 		JSONRPC string          `json:"jsonrpc"`
 		Result  json.RawMessage `json:"result"`
 		Error   *RPCError       `json:"error"`
-		ID      interface{}     `json:"id"`
+		ID      any             `json:"id"`
 	}
 
 	if err := json.Unmarshal(respBody, &rpcResp); err != nil {
@@ -146,7 +146,7 @@ func (c *Client) Call(ctx context.Context, method string, params interface{}, au
 
 // callWithFullAuth is a convenience wrapper for server-side methods that require
 // full authentication (merchantID:key).
-func (c *Client) callWithFullAuth(ctx context.Context, method string, params interface{}, result interface{}) error {
+func (c *Client) callWithFullAuth(ctx context.Context, method string, params any, result any) error {
 	raw, err := c.Call(ctx, method, params, "full")
 	if err != nil {
 		return err
@@ -159,7 +159,7 @@ func (c *Client) callWithFullAuth(ctx context.Context, method string, params int
 
 // callWithPartialAuth is a convenience wrapper for client-side methods that require
 // partial authentication (merchantID only).
-func (c *Client) callWithPartialAuth(ctx context.Context, method string, params interface{}, result interface{}) error {
+func (c *Client) callWithPartialAuth(ctx context.Context, method string, params any, result any) error {
 	raw, err := c.Call(ctx, method, params, "partial")
 	if err != nil {
 		return err

@@ -1,3 +1,5 @@
+// Package rpc defines the JSON-RPC 2.0 error type and common error codes
+// used across the Payme Business SDK.
 package rpc
 
 import "fmt"
@@ -10,7 +12,7 @@ import "fmt"
 type Error struct {
 	Code    int               `json:"code"`
 	Message map[string]string `json:"message"`
-	Data    interface{}       `json:"data,omitempty"`
+	Data    any               `json:"data,omitempty"`
 }
 
 // Error implements the error interface.
@@ -25,7 +27,7 @@ func (e *Error) Error() string {
 }
 
 // NewError creates a new RPC Error with the given code, messages, and optional data.
-func NewError(code int, message map[string]string, data interface{}) *Error {
+func NewError(code int, message map[string]string, data any) *Error {
 	return &Error{
 		Code:    code,
 		Message: message,
@@ -34,7 +36,7 @@ func NewError(code int, message map[string]string, data interface{}) *Error {
 }
 
 // NewErrorSimple creates a new RPC Error with a single English message and optional data.
-func NewErrorSimple(code int, enMessage string, data interface{}) *Error {
+func NewErrorSimple(code int, enMessage string, data any) *Error {
 	return &Error{
 		Code: code,
 		Message: map[string]string{
@@ -89,7 +91,7 @@ func ErrMethodNotFound(method string) *Error {
 }
 
 // ErrInvalidParams returns an invalid params error (-32602).
-func ErrInvalidParams(data interface{}) *Error {
+func ErrInvalidParams(data any) *Error {
 	return NewErrorSimple(ErrCodeInvalidParams, "Invalid params", data)
 }
 

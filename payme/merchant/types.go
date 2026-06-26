@@ -24,7 +24,7 @@ type CheckPerformTransactionResponse struct {
 	Allow bool `json:"allow"`
 
 	// Additional is optional additional information returned to the Payme app.
-	Additional map[string]interface{} `json:"additional,omitempty"`
+	Additional map[string]any `json:"additional,omitempty"`
 }
 
 // CreateTransactionRequest is the request for the CreateTransaction method.

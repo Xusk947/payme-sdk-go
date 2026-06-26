@@ -15,18 +15,18 @@ func TestCardsCreate(t *testing.T) {
 			t.Errorf("X-Auth = %q, want merchant123 (partial auth)", xAuth)
 		}
 
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "cards.create" {
 			t.Errorf("method = %v, want cards.create", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"card": map[string]interface{}{
+			"result": map[string]any{
+				"card": map[string]any{
 					"token": "test_card_token_123",
 				},
 			},
@@ -49,17 +49,17 @@ func TestCardsCreate(t *testing.T) {
 
 func TestCardsGetVerifyCode(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "cards.get_verify_code" {
 			t.Errorf("method = %v, want cards.get_verify_code", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
+			"result": map[string]any{
 				"sent":  true,
 				"phone": "99890*****31",
 				"wait":  60000,
@@ -89,18 +89,18 @@ func TestCardsGetVerifyCode(t *testing.T) {
 
 func TestCardsVerify(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "cards.verify" {
 			t.Errorf("method = %v, want cards.verify", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"card": map[string]interface{}{
+			"result": map[string]any{
+				"card": map[string]any{
 					"token": "verified_token_456",
 				},
 			},
@@ -129,18 +129,18 @@ func TestCardsCheck(t *testing.T) {
 			t.Errorf("X-Auth = %q, want %q (partial auth)", xAuth, expected)
 		}
 
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "cards.check" {
 			t.Errorf("method = %v, want cards.check", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
-				"card": map[string]interface{}{
+			"result": map[string]any{
+				"card": map[string]any{
 					"token":     "token123",
 					"number":    "860006******7890",
 					"expire":    "0399",
@@ -176,17 +176,17 @@ func TestCardsRemove(t *testing.T) {
 			t.Errorf("X-Auth = %q, want %q (full auth)", xAuth, expected)
 		}
 
-		var req map[string]interface{}
+		var req map[string]any
 		json.NewDecoder(r.Body).Decode(&req)
 
 		if req["method"] != "cards.remove" {
 			t.Errorf("method = %v, want cards.remove", req["method"])
 		}
 
-		resp := map[string]interface{}{
+		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"id":      req["id"],
-			"result": map[string]interface{}{
+			"result": map[string]any{
 				"success": true,
 			},
 		}

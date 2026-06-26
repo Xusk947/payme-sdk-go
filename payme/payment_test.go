@@ -70,9 +70,9 @@ func TestGeneratePaymentURL_WithOptions(t *testing.T) {
 }
 
 func TestGeneratePaymentURL_WithDetail(t *testing.T) {
-	detail := map[string]interface{}{
+	detail := map[string]any{
 		"receipt_type": 0,
-		"items": []map[string]interface{}{
+		"items": []map[string]any{
 			{"title": "Item 1", "price": 500000, "count": 1},
 		},
 	}
@@ -104,7 +104,7 @@ func TestGeneratePaymentURL_WithDetail(t *testing.T) {
 		t.Fatalf("failed to decode detail: %v", err)
 	}
 
-	var result map[string]interface{}
+	var result map[string]any
 	if err := json.Unmarshal(decoded, &result); err != nil {
 		t.Fatalf("failed to unmarshal detail: %v", err)
 	}
@@ -164,7 +164,7 @@ func TestGeneratePaymentHTMLForm_WithOptions(t *testing.T) {
 }
 
 func TestGeneratePaymentHTMLForm_WithDetail(t *testing.T) {
-	detail := map[string]interface{}{"receipt_type": 0}
+	detail := map[string]any{"receipt_type": 0}
 	form := GeneratePaymentHTMLForm("merchant", 500000, map[string]string{"order_id": "1"}, WithDetail(detail))
 
 	if !strings.Contains(form, `name="detail"`) {

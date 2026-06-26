@@ -5,17 +5,17 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/xusk947/payme-sdk-go)](https://goreportcard.com/report/github.com/xusk947/payme-sdk-go)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A Go SDK for the [Payme Business](https://developer.help.paycom.uz/) payment platform. Supports both the **Merchant API** (server-side handler) and **Subscribe API** (client-side caller), plus payment initialization helpers.
+A Go SDK for the [Payme Business](https://developer.help.paycom.uz/) payment platform. Covers the Merchant API (server-side handler), Subscribe API (client-side caller), and payment initialization helpers.
 
 ## Features
 
-- **Merchant API** — JSON-RPC 2.0 HTTP handler for receiving Payme Business callbacks
-- **Subscribe API** — HTTP client for calling Payme Business endpoints (cards, receipts, invoices)
-- **Payment Initialization** — Generate payment URLs and HTML forms for the Payme checkout page
-- **No external dependencies** — Pure Go standard library
-- **Context support** — All methods accept `context.Context`
-- **Full test coverage** — 88%+ across all packages
-- **Semantic versioning** — Tagged releases with GoReleaser
+- Merchant API: JSON-RPC 2.0 HTTP handler for receiving Payme Business callbacks
+- Subscribe API: HTTP client for calling Payme Business endpoints (cards, receipts, invoices)
+- Payment initialization: generate payment URLs and HTML forms for the Payme checkout page
+- No external dependencies, pure Go standard library
+- All methods accept `context.Context`
+- 88%+ test coverage across all packages
+- Tagged releases with GoReleaser
 
 ## Installation
 
@@ -217,7 +217,7 @@ if err != nil {
 }
 ```
 
-Pre-defined error constructors are available in the `merchant` and `subscribe` packages.
+Error constructors with localized messages (ru, uz, en) are available in the `merchant` and `subscribe` packages.
 
 ## Configuration
 
@@ -255,7 +255,10 @@ fmt.Println(payme.TestMerchantID) // 5e730e8e0b852a417aa49ceb
 go test -race -cover ./...
 ```
 
+## Contributing
+
+PRs welcome. Run `go test -race -cover ./...` before submitting.
+
 ## License
 
 [MIT](LICENSE)
-# payme-sdk-go
