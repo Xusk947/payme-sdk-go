@@ -1,0 +1,23 @@
+version: 2
+
+# This is a Go library, so we skip building binaries.
+# GoReleaser is used to create GitHub releases with changelog.
+builds:
+  - skip: true
+
+changelog:
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+  groups:
+    - title: "New Features"
+      regexp: "^feat:"
+      order: 0
+    - title: "Bug Fixes"
+      regexp: "^fix:"
+      order: 1
+    - title: "Other Changes"
+      order: 999

@@ -183,7 +183,7 @@ form := payme.GeneratePaymentHTMLForm("your_merchant_id", 500000,
 | `CardsCreate` | Create a card token | Partial (merchantID only) |
 | `CardsGetVerifyCode` | Request SMS verification code | Partial |
 | `CardsVerify` | Verify card with SMS code | Partial |
-| `CardsCheck` | Check card token validity | Full (merchantID:key) |
+| `CardsCheck` | Check card token validity | Partial (merchantID only) |
 | `CardsRemove` | Remove a card token | Full |
 | `ReceiptsCreate` | Create a receipt/invoice | Full |
 | `ReceiptsPay` | Pay a receipt with card token | Full |
@@ -228,6 +228,28 @@ Pre-defined error constructors are available in the `merchant` and `subscribe` p
 | `WithTimeout(d)` | HTTP client timeout |
 
 ## Testing
+
+### Test Data
+
+The SDK includes test data constants for the Payme Business sandbox environment:
+
+```go
+// Test cards (use ONLY in sandbox)
+for _, card := range payme.TestCards {
+    fmt.Printf("%s %s %s\n", card.Type, card.Number, card.Expire)
+}
+// Uzcard 8600495473316478 0399
+// Uzcard 8600069195406311 0399
+// Humo   9860010101010101 0399
+
+// SMS code for all test cards is always 666666
+fmt.Println(payme.TestSMSCode) // 666666
+
+// Test merchant ID from documentation
+fmt.Println(payme.TestMerchantID) // 5e730e8e0b852a417aa49ceb
+```
+
+### Running Tests
 
 ```bash
 go test -race -cover ./...
