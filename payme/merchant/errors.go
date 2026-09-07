@@ -32,7 +32,9 @@ const (
 	ErrCodeCannotPerformTransaction = -31006
 
 	// ErrCodeInsufficientPrivileges indicates the merchant has insufficient privileges.
-	ErrCodeInsufficientPrivileges = -32401
+	// Per the Payme Merchant API specification, this is returned for invalid or missing
+	// HTTP Basic Auth credentials.
+	ErrCodeInsufficientPrivileges = -32504
 )
 
 // ErrAccountNotFound returns an account-not-found error.
