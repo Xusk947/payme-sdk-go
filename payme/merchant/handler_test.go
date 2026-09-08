@@ -125,8 +125,8 @@ func TestHandler_MethodNotAllowed(t *testing.T) {
 		t.Fatalf("failed to unmarshal response: %v", err)
 	}
 
-	if resp.Error == nil || resp.Error.Code != rpc.ErrCodeInvalidRequest {
-		t.Errorf("expected invalid request error, got %v", resp.Error)
+	if resp.Error == nil || resp.Error.Code != rpc.ErrCodeInvalidHTTPMethod {
+		t.Errorf("expected invalid HTTP method error (-32300), got %v", resp.Error)
 	}
 }
 
@@ -190,7 +190,7 @@ func TestHandler_CheckPerformTransaction(t *testing.T) {
 func TestHandler_CreateTransaction(t *testing.T) {
 	mock := &mockMerchantHandler{
 		createResult: &CreateTransactionResponse{
-			CreateTime: 1399114284039,
+			CreateTime:  1399114284039,
 			Transaction: "5123",
 			State:       models.StateCreated,
 		},

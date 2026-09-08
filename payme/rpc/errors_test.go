@@ -79,6 +79,7 @@ func TestPredefinedErrors(t *testing.T) {
 		{"ErrInvalidRequest", ErrInvalidRequest(), ErrCodeInvalidRequest},
 		{"ErrInternal", ErrInternal(), ErrCodeInternal},
 		{"ErrHTTPError", ErrHTTPError(), ErrCodeHTTPError},
+		{"ErrInvalidHTTPMethod", ErrInvalidHTTPMethod(), ErrCodeInvalidHTTPMethod},
 		{"ErrInsufficientPrivileges", ErrInsufficientPrivileges(), ErrCodeInsufficientPrivileges},
 	}
 

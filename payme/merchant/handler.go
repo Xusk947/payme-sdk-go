@@ -2,6 +2,7 @@ package merchant
 
 import (
 	"context"
+	"crypto/subtle"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -69,11 +70,11 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Only POST is allowed
+	// Only POST is allowed; per Payme Merchant API spec, non-POST returns -32300.
 	if r.Method != http.MethodPost {
 		writeResponse(w, rpcResponse{
 			JSONRPC: "2.0",
-			Error:   rpc.ErrInvalidRequest(),
+			Error:   rpc.ErrInvalidHTTPMethod(),
 			ID:      nil,
 		})
 		return
@@ -165,36 +166,52 @@ func (h *Handler) dispatch(ctx context.Context, req *rpcRequest) rpcResponse {
 }
 
 // buildResponse creates a JSON-RPC response from a result and error.
+// Non-RPC errors are wrapped with a generic "Internal error" message to avoid
+// leaking internal implementation details (SQL, stack traces, file paths) to
+// the Payme caller. The original error is available to the handler for logging.
 func buildResponse(result any, err error) rpcResponse {
 	if err != nil {
 		if rpcErr, ok := err.(*rpc.Error); ok {
 			return rpcResponse{Error: rpcErr}
 		}
-		return rpcResponse{Error: rpc.NewErrorSimple(rpc.ErrCodeInternal, err.Error(), nil)}
+		return rpcResponse{Error: rpc.ErrInternal()}
 	}
 	return rpcResponse{Result: result}
 }
 
-// validateAuth checks the HTTP Basic Auth header against the configured credentials.
+// validateAuth checks the HTTP Basic Auth header against the configured credentials
+// using constant-time comparison to prevent timing attacks. Missing, malformed,
+// and incorrect credentials all produce the same result and timing profile.
 func (h *Handler) validateAuth(r *http.Request) bool {
-	authHeader := r.Header.Get("Authorization")
-	if !strings.HasPrefix(authHeader, "Basic ") {
+	login, pass, ok := decodeBasicAuth(r.Header.Get("Authorization"))
+	if !ok {
 		return false
 	}
 
-	encoded := strings.TrimPrefix(authHeader, "Basic ")
+	loginMatch := subtle.ConstantTimeCompare([]byte(login), []byte(h.authLogin))
+	passMatch := subtle.ConstantTimeCompare([]byte(pass), []byte(h.authPass))
+	return loginMatch == 1 && passMatch == 1
+}
+
+// decodeBasicAuth extracts the login and password from an HTTP Basic Auth header.
+// Returns ok=false if the header is missing, not Basic, malformed base64, or
+// has no colon separator. All failure cases are indistinguishable to the caller.
+func decodeBasicAuth(authHeader string) (login, pass string, ok bool) {
+	const prefix = "Basic "
+	if len(authHeader) < len(prefix) || !strings.EqualFold(authHeader[:len(prefix)], prefix) {
+		return "", "", false
+	}
+	encoded := strings.TrimSpace(authHeader[len(prefix):])
 	decoded, err := base64.StdEncoding.DecodeString(encoded)
 	if err != nil {
-		return false
+		return "", "", false
 	}
-
 	credentials := string(decoded)
-	parts := strings.SplitN(credentials, ":", 2)
-	if len(parts) != 2 {
-		return false
+	idx := strings.IndexByte(credentials, ':')
+	if idx < 0 {
+		return "", "", false
 	}
-
-	return parts[0] == h.authLogin && parts[1] == h.authPass
+	return credentials[:idx], credentials[idx+1:], true
 }
 
 // writeResponse writes the JSON-RPC response with HTTP 200 status.

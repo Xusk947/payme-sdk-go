@@ -63,11 +63,17 @@ const (
 	// ErrCodeInternal indicates an internal JSON-RPC error.
 	ErrCodeInternal = -32603
 
+	// ErrCodeInvalidHTTPMethod indicates the HTTP method is not supported.
+	// Per the Payme Merchant API specification, only POST is allowed.
+	ErrCodeInvalidHTTPMethod = -32300
+
 	// ErrCodeHTTPError indicates a non-200 HTTP status was returned.
 	ErrCodeHTTPError = -32400
 
 	// ErrCodeInsufficientPrivileges indicates insufficient privileges to perform the operation.
-	ErrCodeInsufficientPrivileges = -32401
+	// Per the Payme Merchant API specification, this is returned for invalid or missing
+	// HTTP Basic Auth credentials.
+	ErrCodeInsufficientPrivileges = -32504
 
 	// ErrCodeAccountNotFound indicates the account was not found (range -31050 to -31099).
 	ErrCodeAccountNotFound = -31050
@@ -105,7 +111,13 @@ func ErrHTTPError() *Error {
 	return NewErrorSimple(ErrCodeHTTPError, "HTTP error", nil)
 }
 
-// ErrInsufficientPrivileges returns an insufficient privileges error (-32401).
+// ErrInvalidHTTPMethod returns an invalid HTTP method error (-32300).
+func ErrInvalidHTTPMethod() *Error {
+	return NewErrorSimple(ErrCodeInvalidHTTPMethod, "Invalid HTTP method", nil)
+}
+
+// ErrInsufficientPrivileges returns an insufficient privileges error (-32504).
+// This is returned for invalid or missing HTTP Basic Auth credentials.
 func ErrInsufficientPrivileges() *Error {
 	return NewErrorSimple(ErrCodeInsufficientPrivileges, "Insufficient privileges", nil)
 }

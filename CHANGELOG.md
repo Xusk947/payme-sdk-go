@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Breaking:** `ErrCodeInsufficientPrivileges` changed from `-32401` to `-32504`
+  to match the official Payme Merchant API specification. Invalid or missing
+  HTTP Basic Auth credentials now return the correct JSON-RPC error code.
+- Non-POST HTTP methods now return `-32300` (`ErrCodeInvalidHTTPMethod`) instead
+  of `-32600` (`ErrCodeInvalidRequest`), per the Payme Merchant API specification.
+- HTTP Basic Auth credential comparison now uses `crypto/subtle.ConstantTimeCompare`
+  to prevent timing attacks. All auth failure variants (missing, malformed, wrong
+  login, wrong password) produce indistinguishable responses.
+- Basic Auth scheme prefix matching is now case-insensitive per RFC 7617.
+- `buildResponse` no longer leaks internal error details (SQL, stack traces) in
+  JSON-RPC error messages for non-`*rpc.Error` handler errors. Generic handler
+  errors now return a generic "Internal error" message with code `-32603`.
+
+### Added
+
+- `rpc.ErrCodeInvalidHTTPMethod` (`-32300`) and `rpc.ErrInvalidHTTPMethod()`
+  constructor for non-POST HTTP method errors.
+- Contract tests (`contract_test.go`) verifying Merchant API protocol compliance:
+  HTTP 200 for all responses, correct JSON-RPC error codes for auth/transport
+  failures, null id for pre-dispatch errors, no internal detail leakage, and
+  case-insensitive Basic Auth prefix matching.
+
 ## [1.0.0] - 2025-01-01
 
 ### Added
